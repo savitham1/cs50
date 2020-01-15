@@ -1,0 +1,91 @@
+// Crack Program
+
+// Given a hashed password of a 5 character input, from set A-Za-z.
+// The program will find all possible words within 5 characters using the above set.
+// Hash the word using crypt() function
+// Hint: the salt is the first two characters of the hashed pwd
+// So we extract salt from the input
+
+
+#include <stdio.h>
+#include <string.h>
+#include <cs50.h>
+#include <crypt.h>
+
+int main(int argc, string argv[])
+{
+    // Verify if exactly 1 argument was entered
+    if (argc != 2)
+    {
+        printf("Usage: ./final <hash>\n");
+        return 1;
+    }
+
+    else
+    {
+        string hash = argv[1];
+
+        // First 2 characters of the hash or arg is the salt
+
+        char salt[3];
+        for (int i = 0; i < 2; i++)
+        {
+            salt[i] = hash[i];
+        }
+        salt[2] = '\0';
+
+        // Upper case: 26; Lower case: 26; '\0' as 1 character. Therefore, 53 in total.
+
+        string alpha = {"\0ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"};
+        int len = 53;
+
+        // Very crucial because words lesser that 5 will not be compared well.
+
+        char pwd[6] = "\0\0\0\0\0\0";
+
+        /*LOGIC
+
+        X -> place holder; \0 -> NULL
+        5 lines = 5 loops
+
+        1. X\0\0\0\0
+        2. X X\0\0\0
+        3. X X X\0\0
+        4. X X X X\0
+        5. X X X X X
+
+        */
+        for (int i = 0; i < len; i++)
+        {
+            for (int j = 0; j < len; j++)
+            {
+                for (int k = 0; k < len; k++)
+                {
+                    for (int l = 0; l < len; l++)
+                    {
+                        for (int m = 1; m < len; m++)
+                        {
+                            pwd[0] = alpha[m];
+                            pwd[1] = alpha[l];
+                            pwd[2] = alpha[k];
+                            pwd[3] = alpha[j];
+                            pwd[4] = alpha[i];
+
+                            //printf("%s\n", pwd);
+                            if (strcmp(crypt(pwd, salt), hash) == 0)
+                            {
+                                printf("%s\n", pwd);
+                                return 0;
+
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+}
+
+
