@@ -1,4 +1,4 @@
-# Vignere's Cipher
+# Vigenere's Cipher
 
 Ooh, la la!
 
