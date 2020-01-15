@@ -1,0 +1,47 @@
+// Caesar's Algorithm
+
+#include <cs50.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main(int argc, string argv[])
+{
+    int sn; 
+    if (argc == 2)
+    {    
+        // convert and store the value stored in the array to int variable
+        int key = atoi(argv[1]);   
+     
+        // check if the argument entered is an integer                                     
+        if (key > 0) 
+        {
+            string pwd = get_string("Plaintext: ");  
+
+            // Count the length of the password entered 	
+            sn = strlen(pwd);                
+        
+            // Iterate through the characters of the password 
+            for (int i = 0; i < sn; i++)
+            {                                    
+                if (islower(pwd[i]))
+                {
+                    // Shift the letter by the value of Key and keep in ASCII value  
+                    pwd[i] = (pwd[i] + key - 97) % 26 + 97;            
+                } 
+                else if (isupper(pwd[i]))
+                {	
+                    pwd[i] = (pwd[i] + key - 65) % 26 + 65;
+                }                   
+            }         
+            printf("ciphertext: %s\n", pwd);
+        }       
+        return 0;
+    }
+    else 
+    {
+        printf("Usage: ./caesar key\n");
+        return 1;
+    }
+} 
+
