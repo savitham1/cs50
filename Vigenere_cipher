@@ -1,0 +1,155 @@
+// Vigenère’s cipher improves upon Caesar’s cipher by encrypting messages using a sequence of keys (or, put another way, a keyword).
+ 
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <cs50.h>
+
+// This function sends the integer equivalent to the character passed
+char shift(char c, char d);
+
+// This function checks if all the letter in the key is an alphabet.
+int alphacheck(string key);
+
+int main(int argc, string argv[])
+{       
+    if (argc == 2)
+    {   
+        // Assign the command line argument (key) to a variable
+        // argv[1] because the program name is also considered as an input string.
+        string key = argv[1];
+        int is_alpha = alphacheck(key); 
+        if (is_alpha == 1)
+        {                
+            string ptxt = get_string("Plaintext: ");
+            int pl = strlen(ptxt);
+            //printf("pl: %i\n", pl);        
+            
+            // Copy of the plain text
+            string ctxt = ptxt; 
+        
+            // Variable J is used to iterate through the Key
+            int j = 0;
+        
+            // Iterate though each letter of the plain text using for loop
+            for (int i = 0; i < pl; i++)
+            {
+                int x = isalpha(ptxt[i]);  
+                
+                // To avoid blank spaces in the plain text        
+                if (x != 0)
+                {           
+                    // Rotate the key through the plain text.
+                    // e.g ptxt = Hello and Key = ABC then shift = ABCAB
+                    if (key[j] == '\0')
+                    {
+                        j = 0;
+                    }                   
+                   
+                    // Main Cipher function 
+                    ptxt[i] = shift(key[j], ptxt[i]);  
+               
+                    // Iterate Key   
+                    j++;                         
+                }                                 
+            }
+            
+            // Print the encrypted text
+            printf("ciphertext: %s\n", ptxt);
+            return 0;
+        }
+        else
+        {
+            printf("Usage: ./vigenere 'keyword'\n");
+            return 1;
+        }
+    }
+    else
+    {
+        printf("Usage: ./vigenere 'keyword'\n");
+        return 1;
+    }
+}
+
+// Function 1
+
+// Receives a character of Key and Plaintext and return an encrypted char
+char shift(char c_key, char c_ptxt)
+{
+    string al = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
+    c_key = toupper(c_key);
+    // c_key - char of Key
+    // c_ptxt - char of Plain text
+    // key - value for key
+    // len_pxt - int value of plaintext
+    // en_val - encrypted int value
+    // res - final encrypted char
+    int key, len_ptxt, en_val;
+    char res;
+    
+    // Search for the letter in the char array.
+    for (int i = 0; i <= 26; i++)
+    {
+        if (c_key == al[i])
+        {
+            // Hold the value of Key
+            key = i;    
+        }
+        if (c_ptxt == al[i] || c_ptxt == tolower(al[i]))
+        {
+            // Holds the value of plaintext
+            len_ptxt = i;    
+        }
+    }
+    
+    en_val = (key + len_ptxt) % 26;
+    //printf("(%c %i + %c %i) mod 26 = %i\n",c,k,d,l,m);
+   
+    // Loop to match the value of m and get the respective alphabet
+    for (int j = 0; j <= 26; j++)
+    {     
+        if (en_val == j)
+        {           
+            res = al[j]; 
+            //printf("Res: %c\n", res);
+        }
+    }
+    
+    // To maintain case sensitivity of the plaintext entered
+    if (islower(c_ptxt))
+    {
+        res = tolower(res);
+        return res;
+    }
+    else
+    {
+        return res; 
+    }
+}
+
+// Function 2
+
+// Checks if all the letters in the argument, 'key', entered is an alphabet.
+int alphacheck(string key)
+{    
+    int val = 0;
+    
+    // String length
+    int sl = strlen(key);  
+    for (int i = 0; i < sl; i++)
+    {           
+        // Check each character is an alphabet       
+        // This function in C doesn't support for strings
+        if (isalpha(key[i]))
+        {
+            val = 1; 
+            // printf("%c", key[i]);              
+        }
+        else 
+        {                          
+            val = 0;            
+        }                          
+    }
+    return val;
+}
+
