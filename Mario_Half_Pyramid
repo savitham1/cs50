@@ -1,0 +1,45 @@
+// Take length as the input from the user and
+// Print a pyramid based on mario game
+
+#include <cs50.h>
+#include <stdio.h>
+
+int main(void)
+{
+    //variable store the length of the pyramid
+    int n;
+    
+    // Input from the user
+    // Repeat the prompt until a valid number between 1 and 8 is entered
+    do
+    {
+        n = get_int("Height between 1 and 8: ");      
+    }
+    while (n < 1 || n > 8);
+    
+    // Iterate for the length of the pyramid
+    for (int i = 1; i <= n; i++)
+    {    
+        // Left pyramid
+        for (int j = 1; j <= n - i; j++)
+        {
+            printf(" ");
+        }
+        
+        for (int k = 1; k <= i; k++)
+        {
+            printf("#");
+        }
+        
+        // Mid blank space
+        printf("  ");
+   
+        // Right pyramid
+        for (int l = 1; l <= i; l++)
+        {
+            printf("#");
+        }       
+        printf("\n");
+    }    
+}
+
